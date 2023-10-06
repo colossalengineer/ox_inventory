@@ -36,6 +36,11 @@ Citizen.CreateThreadNow(function()
         playerColumn = 'character_id'
         vehicleTable = 'vehicles'
         vehicleColumn = 'id'
+    elseif shared.framework == 'cr' then
+        playerTable = GetConvar('inventory:playerTable', "characters")
+        playerColumn = GetConvar('inventory:playerColumn', "character_id")
+        vehicleTable = GetConvar('inventory:vehicleTable', "vehicles")
+        vehicleColumn = GetConvar('inventory:vehicleColumn', "id")
     end
 
     for k, v in pairs(Query) do
