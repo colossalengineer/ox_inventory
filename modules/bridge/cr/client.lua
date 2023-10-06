@@ -10,6 +10,11 @@ AddEventHandler('ProjectHyde:Global:Client:PlayerSpawned', function()
     TriggerServerEvent("CR:InventoryBridge:Spawned", GetPlayerServerId(PlayerId()))
 end)
 
+RegisterNetEvent('PHSpawn:Client:Events:Spawn')
+AddEventHandler('PHSpawn:Client:Events:Spawn', function()
+  TriggerServerEvent("CR:InventoryBridge:RemoveInv", GetPlayerServerId(PlayerId()))
+end)
+
 local usingDiscord = GetConvarInt('crToolkit:Discord', 0)
 
 ---@diagnostic disable-next-line: duplicate-set-field

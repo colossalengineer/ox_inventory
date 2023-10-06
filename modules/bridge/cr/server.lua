@@ -7,19 +7,20 @@ local snailyEnabled = GetConvarInt("crToolkit:SnailyCAD", 0)
 
 local setupInventories = function()
 	for _, player in pairs(GlobalState.PlayerLocations) do
-        player.identifier = source
+        player.source = player.player
         if snailyEnabled then
-            local civilian = Player(source).state.civ
+            local civilian = Player(player.source).state.civ or false
             if civilian then
                 player.identifier = civilian.id
                 player.dateofbirth = civilian.dateOfBirth
                 player.name = ("%s %s"):format(civilian.name, civilian.surname)
                 --player.sex = Player(source).state.civ.genderId
+                server.setPlayerInventory(player)
                 goto skip
             end
         end
-        player.identifier = GetPlayerIdentifierByType(source, 'license2') or GetPlayerIdentifierByType(source, 'license')
-        player.name = GetPlayerName(source)
+        player.identifier = GetPlayerIdentifierByType(player.source, 'license2') or GetPlayerIdentifierByType(player.source, 'license')
+        player.name = GetPlayerName(player.source)
         server.setPlayerInventory(player)
         --Inventory.SetItem(character.source, "money", character.cash)
         ::skip::
@@ -32,14 +33,15 @@ end)
 
 RegisterNetEvent("CR:InventoryBridge:Spawned", function(source)
     local player = {}
-    player.identifier = source
+    player.source = source
     if snailyEnabled then
-        local civilian = Player(source).state.civ
+        local civilian = Player(source).state.civ or false
         if civilian then
             player.identifier = civilian.id
             player.dateofbirth = civilian.dateOfBirth
             player.name = ("%s %s"):format(civilian.name, civilian.surname)
             --player.sex = Player(source).state.civ.genderId
+            server.setPlayerInventory(player)
             return
         end
     end
@@ -47,6 +49,12 @@ RegisterNetEvent("CR:InventoryBridge:Spawned", function(source)
     player.name = GetPlayerName(source)
     server.setPlayerInventory(player)
     --Inventory.SetItem(character.source, "money", character.cash)
+end)
+
+RegisterNetEvent("CR:InventoryBridge:RemoveInv", function(source)
+    if Inventory(source) then
+	    Inventory.Remove(Inventory(source))
+    end
 end)
 
 RegisterNetEvent("CR:Bridge:MoneyUpdate", function(player, account, amount, changeType)
