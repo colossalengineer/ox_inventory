@@ -307,7 +307,7 @@ Inventory.Evidence = setmetatable(data('evidence'), {
                 evidence.zone = nil
             end
 
-			if client.hasGroup(shared.police) then
+			if client.hasGroup(evidence.group) then
 				if shared.target then
 					if evidence.target then
                         evidence.zoneId = Utils.CreateBoxZone(evidence.target, {
