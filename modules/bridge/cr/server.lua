@@ -31,6 +31,45 @@ SetTimeout(500, function()
 	setupInventories()
 end)
 
+local usingDiscord = GetConvarInt('crToolkit:Discord', 0)
+local CheckTableFull = function(table, value)
+        for _, v in ipairs(table) do
+            if v == value then
+                return true
+            end
+        end
+        return false
+    end
+---@diagnostic disable-next-line: duplicate-set-field
+function server.hasGroup(inv, group)
+    if usingDiscord then
+        local roles = Player(inv.player.source).state.roles or false
+		if type(group) == 'table' then
+			for name, rank in pairs(group) do
+                if roles and CheckTableFull(roles, name) then
+                    return name, rank
+                end
+           	end
+        end
+        if CheckTableFull(roles, group) then
+            return group, 0
+        end
+	end
+	if type(group) == 'table' then
+		for name, rank in pairs(group) do
+			local groupRank = inv.player.groups[name]
+			if groupRank and groupRank >= (rank or 0) then
+				return name, groupRank
+			end
+		end
+	else
+		local groupRank = inv.player.groups[group]
+		if groupRank then
+			return group, groupRank
+		end
+	end
+end
+
 RegisterNetEvent("CR:InventoryBridge:Spawned", function(source)
     local player = {}
     player.source = source

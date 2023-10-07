@@ -33,7 +33,8 @@ local function setupShopItems(id, shopType, shopName, groups)
 				metadata = slot.metadata,
 				license = slot.license,
 				currency = slot.currency,
-				grade = slot.grade
+				grade = slot.grade,
+				roles = slot.roles
 			}
 
 			if slot.metadata then
@@ -218,6 +219,32 @@ lib.callback.register('ox_inventory:buyItem', function(source, data)
 					return false, false, { type = 'error', description = locale('stash_lowgrade') }
 				end
 			end
+
+			local CheckTableFull = function(table, value)
+				for _, v in ipairs(table) do
+					if v == value then
+						return true
+					end
+				end
+				return false
+			end
+
+			if fromData.roles then
+				local roles = Player(source).state.roles or false
+				if type(fromData.roles) == 'table' then
+					for _, role in pairs(fromData.roles) do
+						if roles and CheckTableFull(roles, role) then
+							goto hasRole
+						end
+					end
+					return false, false, { type = 'error', description = locale('stash_lowgrade') }
+				end
+				if not CheckTableFull(roles, fromData.roles) then
+					return false, false, { type = 'error', description = locale('stash_lowgrade') }
+				end
+			end
+
+			::hasRole::
 
 			local currency = fromData.currency or 'money'
 			local fromItem = Items(fromData.name)

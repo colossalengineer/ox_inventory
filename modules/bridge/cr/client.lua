@@ -23,7 +23,12 @@ function client.hasGroup(group)
 
 	if usingDiscord then
 		if type(group) == 'table' then
-			return exports['crToolkit']:DISCORDCheckAnyMembership(group) or false
+			for name, rank in pairs(group) do
+				if exports['crToolkit']:DISCORDCheckMembership(name) then
+                	return name, rank
+               	end
+           	end
+        	return false
 		else
 			return exports['crToolkit']:DISCORDCheckMembership(group) or false
 		end
