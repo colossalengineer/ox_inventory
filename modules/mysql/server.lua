@@ -10,7 +10,7 @@ local Query = {
     SELECT_PLAYER = 'SELECT inventory FROM `{user_table}` WHERE `{user_column}` = ?',
     UPDATE_TRUNK = 'UPDATE `{vehicle_table}` SET trunk = ? WHERE `{vehicle_column}` = ?',
     UPDATE_GLOVEBOX = 'UPDATE `{vehicle_table}` SET glovebox = ? WHERE `{vehicle_column}` = ?',
-    UPDATE_PLAYER = 'UPDATE `{user_table}` SET inventory = ? WHERE `{user_column}` = ?',
+    UPDATE_PLAYER = 'INSERT INTO `{user_table}` (inventory, `{user_column}`) VALUES (?, ?) ON DUPLICATE KEY UPDATE inventory = VALUES(inventory);',
 }
 
 Citizen.CreateThreadNow(function()
