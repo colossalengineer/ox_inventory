@@ -1271,8 +1271,11 @@ RegisterNetEvent('ox_inventory:setPlayerInventory', function(currentDrops, inven
 	})
 
 	PlayerData.loaded = true
+	local displayLoad = GetConvarInt('inventory:displayload', 0)
 
-	lib.notify({ description = locale('inventory_setup') })
+	if displayLoad then
+		lib.notify({ description = locale('inventory_setup') })
+	end
 	Shops.refreshShops()
 	Inventory.Stashes()
 	Inventory.Evidence()
