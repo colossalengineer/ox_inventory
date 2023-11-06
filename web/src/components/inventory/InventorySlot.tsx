@@ -133,6 +133,7 @@ const InventorySlot: React.ForwardRefRenderFunction<HTMLDivElement, SlotProps> =
         opacity: isDragging ? 0.4 : 1.0,
         backgroundImage: `url(${item?.name ? getItemUrl(item as SlotWithItem) : 'none'}`,
         border: isOver ? '1px dashed rgba(255,255,255,0.4)' : '',
+        background: item.metadata?.eup === true ? 'radial-gradient(109.17% 109.17% at 50% 50%, rgba(12, 12, 12, 0.40) 0%, rgba(47, 181, 0, 0.54) 100%)' : '',
       }}
     >
       {isSlotWithItem(item) && (
