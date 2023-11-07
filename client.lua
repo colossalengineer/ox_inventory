@@ -1811,3 +1811,23 @@ lib.callback.register('ox_inventory:getVehicleData', function(netid)
 		return GetEntityModel(entity), GetVehicleClass(entity)
 	end
 end)
+
+RegisterNUICallback('equip', function(data, cb)
+	cb(true)
+
+	local success, response = lib.callback.await('ox_inventory:equip', 200, data.slot, data)
+
+	if not success then
+		if response then lib.notify({ type = 'error', description = locale(response or 'cannot_perform') }) end
+	end
+end)
+
+RegisterNUICallback('unEquip', function(data, cb)
+	cb(true)
+
+	local success, response = lib.callback.await('ox_inventory:unEquip', 200, data.slot, data)
+
+	if not success then
+		if response then lib.notify({ type = 'error', description = locale(response or 'cannot_perform') }) end
+	end
+end)

@@ -64,6 +64,12 @@ const InventoryContext: React.FC = () => {
       case 'custom':
         fetchNui('useButton', { id: (data?.id || 0) + 1, slot: item.slot });
         break;
+      case 'equip':
+        fetchNui('equip', { name: item.name, slot: item.slot });
+        break;
+      case 'unEquip':
+         fetchNui('unEquip', { name: item.name, slot: item.slot, metadata: item.metadata });
+         break;
     }
   };
 
@@ -92,9 +98,22 @@ const InventoryContext: React.FC = () => {
   return (
     <>
       <Menu>
-        <MenuItem onClick={() => handleClick({ action: 'use' })} label={Locale.ui_use || 'Use'} />
-        <MenuItem onClick={() => handleClick({ action: 'give' })} label={Locale.ui_give || 'Give'} />
-        <MenuItem onClick={() => handleClick({ action: 'drop' })} label={Locale.ui_drop || 'Drop'} />
+        {item && item.metadata?.eup === undefined && (
+            <React.Fragment>
+              <MenuItem onClick={() => handleClick({ action: 'use' })} label={Locale.ui_use || 'Use'} />
+              <MenuItem onClick={() => handleClick({ action: 'give' })} label={Locale.ui_give || 'Give'} />
+              <MenuItem onClick={() => handleClick({ action: 'drop' })} label={Locale.ui_drop || 'Drop'} />
+            </React.Fragment>
+        )}
+
+        {item && item.metadata?.eup !== undefined && item.metadata?.equipped == false && (
+            <MenuItem onClick={() => handleClick({ action: 'equip' })} label={Locale.ui_use || 'Equip'} />
+        )}
+
+        {item && item.metadata?.eup === true && (
+            <MenuItem onClick={() => handleClick({ action: 'unEquip' })} label={Locale.ui_use || 'unEquip'} />
+        )}
+
         {item && item.metadata?.ammo > 0 && (
           <MenuItem onClick={() => handleClick({ action: 'removeAmmo' })} label={Locale.ui_remove_ammo} />
         )}
