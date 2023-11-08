@@ -98,7 +98,7 @@ const InventoryContext: React.FC = () => {
   return (
     <>
       <Menu>
-        {item && item.metadata?.eup === undefined && (
+        {item && item.metadata?.equipped === undefined && (
             <React.Fragment>
               <MenuItem onClick={() => handleClick({ action: 'use' })} label={Locale.ui_use || 'Use'} />
               <MenuItem onClick={() => handleClick({ action: 'give' })} label={Locale.ui_give || 'Give'} />
@@ -106,7 +106,7 @@ const InventoryContext: React.FC = () => {
             </React.Fragment>
         )}
 
-        {item && item.metadata?.eup !== undefined && item.metadata?.equipped == false && (
+        {item && item.metadata?.equipped !== undefined && item.metadata?.equipped == false && (
             <React.Fragment>
               <MenuItem onClick={() => handleClick({ action: 'equip' })} label={Locale.ui_equip || 'Equip'} />
               <MenuItem onClick={() => handleClick({ action: 'give' })} label={Locale.ui_give || 'Give'} />
@@ -114,7 +114,7 @@ const InventoryContext: React.FC = () => {
             </React.Fragment>
         )}
 
-        {item && item.metadata?.eup === true && (
+        {item && item.metadata?.equipped === true && (
             <MenuItem onClick={() => handleClick({ action: 'unEquip' })} label={Locale.ui_unEuip || 'unEquip'} />
         )}
 
