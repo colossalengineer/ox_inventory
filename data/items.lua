@@ -215,4 +215,9 @@ return {
 		label = 'Scrap Metal',
 		weight = 80,
 	},
+
+	['bullet_proff_vest'] = {
+		label = 'Bullet Proff Vest',
+		weight = 80,
+	}
 }
