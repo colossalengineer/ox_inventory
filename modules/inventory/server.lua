@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field, cast-local-type, inject-field, param-type-mismatch
 if not lib then return end
 
 local Inventory = {}
@@ -1045,7 +1046,7 @@ function Inventory.AddItem(inv, item, count, metadata, slot, cb)
 	if not inv?.slots then return false, 'invalid_inventory' end
 
 	local toSlot, slotMetadata, slotCount
-	local success, response = false
+	local success, response = false, nil
 	count = math.floor(count + 0.5)
 	metadata = assertMetadata(metadata)
 
@@ -1635,7 +1636,7 @@ lib.callback.register('ox_inventory:swapItems', function(source, data)
         end
 
 		if fromData and (not fromData.metadata.container or fromData.metadata.container and toInventory.type ~= 'container') then
-			local container, containerItem = (not sameInventory and playerInventory.containerSlot) and (fromInventory.type == 'container' and fromInventory or toInventory)
+			local container, containerItem = (not sameInventory and playerInventory.containerSlot) and (fromInventory.type == 'container' and fromInventory or toInventory), nil
 
 			if container then
 				containerItem = playerInventory.items[playerInventory.containerSlot]

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 if not lib then return end
 
 require 'modules.bridge.client'
@@ -414,7 +415,7 @@ end
 ---@param data table
 ---@param cb function?
 local function useItem(data, cb)
-	local slotData, result = PlayerData.inventory[data.slot]
+	local slotData, result = PlayerData.inventory[data.slot], nil
 
 	if not canUseItem(data.ammo and true) then return end
 
