@@ -14,6 +14,7 @@ local Inventory = require 'modules.inventory.server'
 
 require 'modules.crafting.server'
 require 'modules.shops.server'
+require 'modules.eup.server'
 
 ---@param player table
 ---@param data table?
