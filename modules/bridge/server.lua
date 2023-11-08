@@ -1,6 +1,7 @@
 ---@todo separate module into smaller submodules to handle each framework
 ---starting to get bulky
 
+---@diagnostic disable-next-line: duplicate-set-field
 function server.hasGroup(inv, group)
 	if type(group) == 'table' then
 		for name, rank in pairs(group) do
@@ -42,9 +43,9 @@ local Inventory = require 'modules.inventory.server'
 local function playerDropped(source)
 	local inv = Inventory(source) --[[@as OxInventory]]
 
-	if inv?.player then
+	if inv then
 		inv:closeInventory()
-		Inventory.Remove(inv)
+		Inventory.Remove(source)
 	end
 end
 
