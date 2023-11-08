@@ -1816,19 +1816,23 @@ end)
 RegisterNUICallback('equip', function(data, cb)
 	cb(true)
 
-	local success, response = lib.callback.await('ox_inventory:equip', 200, data.slot, data)
+	local success, response = lib.callback.await('ox_inventory:equip', false, data.slot, data)
 
 	if not success then
-		if response then lib.notify({ type = 'error', description = locale(response or 'cannot_perform') }) end
+		lib.notify({ type = 'error', description = locale(response or 'cannot_perform') })
+	else
+		lib.notify({ type = 'success', description = "Equipped" })
 	end
 end)
 
 RegisterNUICallback('unEquip', function(data, cb)
 	cb(true)
 
-	local success, response = lib.callback.await('ox_inventory:unEquip', 200, data.slot, data)
+	local success, response = lib.callback.await('ox_inventory:unEquip', false, data.slot, data)
 
 	if not success then
-		if response then lib.notify({ type = 'error', description = locale(response or 'cannot_perform') }) end
+		lib.notify({ type = 'error', description = locale(response or 'cannot_perform') })
+	else
+		lib.notify({ type = 'success', description = "unEquipped" })
 	end
 end)
