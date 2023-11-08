@@ -65,7 +65,7 @@ const InventoryContext: React.FC = () => {
         fetchNui('useButton', { id: (data?.id || 0) + 1, slot: item.slot });
         break;
       case 'equip':
-        fetchNui('equip', { name: item.name, slot: item.slot });
+        fetchNui('equip', { name: item.name, slot: item.slot, metadata: item.metadata });
         break;
       case 'unEquip':
          fetchNui('unEquip', { name: item.name, slot: item.slot, metadata: item.metadata });
