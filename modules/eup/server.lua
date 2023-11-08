@@ -15,8 +15,6 @@ lib.callback.register('ox_inventory:unEquip', function(source, slot, eupData)
 
     eupData.metadata.equipped = false
 
-
-
     Inventory.SetMetadata(source, slot, eupData.metadata)
 
     return true
