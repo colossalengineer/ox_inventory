@@ -114,7 +114,7 @@ const InventoryContext: React.FC = () => {
             </React.Fragment>
         )}
 
-        {item && item.metadata?.equipped === true && (
+        {item && item.metadata?.equipped === true && item.metadata?.removable && (
             <MenuItem onClick={() => handleClick({ action: 'unEquip' })} label={Locale.ui_unEuip || 'unEquip'} />
         )}
 
