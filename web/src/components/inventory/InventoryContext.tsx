@@ -107,11 +107,15 @@ const InventoryContext: React.FC = () => {
         )}
 
         {item && item.metadata?.eup !== undefined && item.metadata?.equipped == false && (
-            <MenuItem onClick={() => handleClick({ action: 'equip' })} label={Locale.ui_use || 'Equip'} />
+            <React.Fragment>
+              <MenuItem onClick={() => handleClick({ action: 'equip' })} label={Locale.ui_equip || 'Equip'} />
+              <MenuItem onClick={() => handleClick({ action: 'give' })} label={Locale.ui_give || 'Give'} />
+              <MenuItem onClick={() => handleClick({ action: 'drop' })} label={Locale.ui_drop || 'Drop'} />
+            </React.Fragment>
         )}
 
         {item && item.metadata?.eup === true && (
-            <MenuItem onClick={() => handleClick({ action: 'unEquip' })} label={Locale.ui_use || 'unEquip'} />
+            <MenuItem onClick={() => handleClick({ action: 'unEquip' })} label={Locale.ui_unEuip || 'unEquip'} />
         )}
 
         {item && item.metadata?.ammo > 0 && (
