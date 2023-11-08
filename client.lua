@@ -1813,8 +1813,48 @@ lib.callback.register('ox_inventory:getVehicleData', function(netid)
 	end
 end)
 
+local EUPTypes = {
+	["Mask"] = {type = "drawable", index = 1},
+	["Upper Body"] = {type = "drawable", index = 3},
+	["Lower Body"] = {type = "drawable", index = 4},
+	["Bags"] = {type = "drawable", index = 5},
+	["Shoes"] = {type = "drawable", index = 6},
+	["Accessories"] = {type = "drawable", index = 7},
+	["Undershirt"] = {type = "drawable", index = 8},
+	["Body Armor"] = {type = "drawable", index = 9},
+	["Decals"] = {type = "drawable", index = 10},
+	["Jacket"] = {type = "drawable", index = 11},
+	["Helmet"] = {type = "prop", index = 0},
+	["Ear"] = {type = "prop", index = 1},
+}
+
 RegisterNUICallback('equip', function(data, cb)
 	cb(true)
+
+	if not data.metadata.type
+			or (data.metadata.type == "eup" and (not data.metadata.drawable or not data.metadata.texture or not data.metadata.eupType))
+			--	TODO: Add in other types of equip
+	then
+		return lib.notify({ type = 'error', description = "Item Missing Type, Drawable or Texture" })
+	end
+
+	if data.metadata.type == 'eup' then
+		local ped = PlayerPedId()
+		local drawable = data.metadata.drawable
+		local texture = data.metadata.texture
+		local type = EUPTypes[data.metadata.eupType].type or false
+		local index = EUPTypes[data.metadata.eupType].index or false
+
+		if type == false or index == false then
+			return lib.notify({ type = 'error', description = "Item Error" })
+		end
+
+		if type == 'drawable' then
+			SetPedComponentVariation(ped, index, drawable, texture, 0)
+		elseif type == 'prop' then
+			SetPedPropIndex(ped, index, drawable, texture, true)
+		end
+	end
 
 	local success, response = lib.callback.await('ox_inventory:equip', false, data.slot, data)
 
@@ -1827,6 +1867,26 @@ end)
 
 RegisterNUICallback('unEquip', function(data, cb)
 	cb(true)
+
+	if not data.metadata.removable then
+		return lib.notify({ type = 'error', description = "Item is not removable" })
+	end
+
+	if data.metadata.type == 'eup' then
+		local ped = PlayerPedId()
+		local type = EUPTypes[data.metadata.eupType].type or false
+		local index = EUPTypes[data.metadata.eupType].index or false
+
+		if type == false or index == false then
+			return lib.notify({ type = 'error', description = "Item Error" })
+		end
+
+		if type == 'drawable' then
+			SetPedComponentVariation(ped, index, 0, 0, 0)
+		elseif type == 'prop' then
+			ClearPedProp(ped, index)
+		end
+	end
 
 	local success, response = lib.callback.await('ox_inventory:unEquip', false, data.slot, data)
 
