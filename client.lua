@@ -450,7 +450,7 @@ local function useSlot(slot)
 	local data = Items[item.name]
 	if not data then return end
 
-	if canUseItem(data.ammo and true) then
+	if canUseItem(data.ammo and true) then*
 		if data.component and not currentWeapon then
 			return lib.notify({ id = 'weapon_hand_required', type = 'error', description = locale('weapon_hand_required') })
 		end

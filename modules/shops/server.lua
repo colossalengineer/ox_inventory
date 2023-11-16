@@ -264,6 +264,10 @@ lib.callback.register('ox_inventory:buyItem', function(source, data)
 					return false, false, { type = 'error', description = locale('cannot_carry') }
 				end
 
+				if not Inventory.CanCarry(playerInv, fromItem, count, metadata) then
+					return false, false, { type = 'error', description = locale('cannot_carry') }
+				end
+
 				local canAfford = canAffordItem(playerInv, currency, price)
 
 				if canAfford ~= true then

@@ -572,7 +572,9 @@ return {
 			label = 'SMG',
 			weight = 3084,
 			durability = 0.8,
-			ammoname = 'ammo-9'
+			ammoname = 'ammo-9',
+			max = 1
+		}
 		},
 
 		['WEAPON_SMG_MK2'] = {

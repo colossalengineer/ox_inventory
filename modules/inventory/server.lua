@@ -2637,4 +2637,43 @@ end
 
 exports('CreateTemporaryStash', Inventory.CreateTemporaryStash)
 
+function Inventory.CanCarry(inv, item, count, metadata)
+	if type(item) ~= 'table' then item = Items(item) end
+
+	if item then
+		inv = Inventory(inv) --[[@as OxInventory]]
+
+		if inv then
+
+			local itemCount =  GetItemCount(inv, item.name)
+
+			if item.max and itemCount >= item.max then
+				return false
+			end
+
+			local itemSlots, _, emptySlots = Inventory.GetItemSlots(inv, item, type(metadata) == 'table' and metadata or { type = metadata or nil })
+
+			if not itemSlots then return end
+
+			local weight = metadata and metadata.weight or item.weight
+
+			if next(itemSlots) or emptySlots > 0 then
+				if not count then count = 1 end
+				if not item.stack and emptySlots < count then return false end
+				if weight == 0 then return true end
+
+				local newWeight = inv.weight + (weight * count)
+
+				if newWeight > inv.maxWeight then
+
+					return false
+				end
+
+				return true
+			end
+		end
+	end
+	return true
+end
+
 return Inventory
