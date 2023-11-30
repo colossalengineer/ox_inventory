@@ -167,6 +167,10 @@ lib.callback.register('ox_inventory:craftItem', function(source, id, index, reci
 				return false, 'cannot_carry'
 			end
 
+			if not Inventory.CanCarry(source, craftedItem, craftCount) then
+				return false, 'cannot_carry'
+			end
+
 			if not TriggerEventHooks('craftItem', {
 				source = source,
 				benchId = id,

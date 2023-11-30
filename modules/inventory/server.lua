@@ -1350,6 +1350,11 @@ function Inventory.CanCarryItem(inv, item, count, metadata)
 					return false
 				end
 
+				if not Inventory.CanCarry(playerInv, fromItem, count, metadata) then
+					TriggerClientEvent('ox_lib:notify', inv.id, { type = 'error', description = locale('cannot_carry') })
+					return false
+				end
+
 				return true
 			end
 		end
@@ -2645,11 +2650,7 @@ function Inventory.CanCarry(inv, item, count, metadata)
 
 		if inv then
 
-			local itemCount =  GetItemCount(inv, item.name)
 
-			if item.max and itemCount >= item.max then
-				return false
-			end
 
 			local itemSlots, _, emptySlots = Inventory.GetItemSlots(inv, item, type(metadata) == 'table' and metadata or { type = metadata or nil })
 
